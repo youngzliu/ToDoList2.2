@@ -8,6 +8,11 @@ namespace ToDoList.Models
     public string Description { get; set; }
     public int Id { get; }
 
+    public Item(string description)
+    {
+        Description = description;
+    }
+
     public Item(string description, int id)
     {
         Description = description;
@@ -56,6 +61,20 @@ namespace ToDoList.Models
       // Temporarily returning placeholder item to get beyond compiler errors until we refactor to work with database.
       Item placeholderItem = new Item("placeholder item");
       return placeholderItem;
+    }
+
+    public override bool Equals(System.Object otherItem)
+    {
+      if (!(otherItem is Item))
+      {
+        return false;
+      }
+      else
+      {
+        Item newItem = (Item) otherItem;
+        bool descriptionEquality = (this.Description == newItem.Description);
+        return descriptionEquality;
+      }
     }
 
   }

@@ -58,7 +58,7 @@ namespace ToDoList.Tests
     }
 
     [TestMethod]
-    public void GetAll_ReturnsEmptyList_ItemList()
+    public void GetAll_ReturnsEmptyListFromDatabase_ItemList()
     {
       // Arrange
       List<Item> newList = new List<Item> { };
@@ -115,6 +115,17 @@ namespace ToDoList.Tests
 
       //Assert
       Assert.AreEqual(newItem2, result);
+    }
+
+    [TestMethod]
+    public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Item()
+    {
+      // Arrange, Act
+      Item firstItem = new Item("Mow the lawn");
+      Item secondItem = new Item("Mow the lawn");
+
+      // Assert
+      Assert.AreEqual(firstItem, secondItem);
     }
   }
 }
