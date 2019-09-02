@@ -56,26 +56,36 @@ namespace ToDoList.Models
       }
     }
 
-    public static Item Find(int searchId)
+    public static Item Find(int id)
     {
-      // Temporarily returning placeholder item to get beyond compiler errors until we refactor to work with database.
-      Item placeholderItem = new Item("placeholder item");
-      return placeholderItem;
-    }
+      // We open a connection.
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
 
-    public override bool Equals(System.Object otherItem)
-    {
-      if (!(otherItem is Item))
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM `items` WHERE id = @thisId;";
+
+      MySqlParameter thisId = new MySqlParameter();
+      thisId.ParameterName = "@thisId";
+      thisId.Value = id;
+      cmd.Parameters.Add(thisId);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      int itemId = 0;
+      string itemDescription = "";
+      while (rdr.Read())
       {
-        return false;
+        itemId = rdr.GetInt32(0);
+        itemDescription = rdr.GetString(1);
       }
-      else
+      Item foundItem= new Item(itemDescription, itemId);
+
+      conn.Close();
+      if (conn != null)
       {
-        Item newItem = (Item) otherItem;
-        bool idEquality = (this.Id == newItem.Id);
-        bool descriptionEquality = (this.Description == newItem.Description);
-        return (idEquality && descriptionEquality);
+        conn.Dispose();
       }
+      return foundItem;
     }
 
     public void Save()
