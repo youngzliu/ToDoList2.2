@@ -4,8 +4,9 @@ namespace ToDoList.Models
 {
   public class ToDoListContext : DbContext
   {
-    public virtual DbSet<Category> Categories { get; set; } //new line
+    public virtual DbSet<Category> Categories { get; set; }
     public DbSet<Item> Items { get; set; }
+    public DbSet<CategoryItem> CategoryItem { get; set; }
 
     public ToDoListContext(DbContextOptions options) : base(options) { }
   }
