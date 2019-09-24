@@ -16,9 +16,14 @@ else
 {
   <h4>Items the category contains:</h4>
   <ul>
-  @foreach(var join in Model.Items)
+  @foreach(var join in Model.Categories)
   {
-    <li>@join.Item.Description</li>
+    <li>@join.Category.Name</li>
+    @using (Html.BeginForm("DeleteCategory", "Items"))
+    {
+      @Html.Hidden("joinId", @join.CategoryItemId)
+      <input type="submit" value="Delete"/>
+    }
   }
   </ul>
 }
